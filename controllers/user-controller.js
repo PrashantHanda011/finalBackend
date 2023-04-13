@@ -38,12 +38,13 @@ export const register = async (req, res, next) => {
       media,
       questions
     });
+    console.log(user)
     await user.save();
     return res.status(200).json({ message: "User Posted" })
   } catch (err) {
     return console.log(err);
   }
-  return res.status(201).json({ user });
+
 };
 
 // Update a user by ID
