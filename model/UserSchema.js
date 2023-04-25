@@ -18,7 +18,7 @@ const userSchema = new Schema({
     // },
   ],
   media: {
-    audioURL: String,
+    audioURL: [String],
     images: [String],
     signature: [String],
   },
