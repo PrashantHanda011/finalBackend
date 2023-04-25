@@ -26,7 +26,7 @@ export const getUserById = async (req, res, next) => {
 
 // Create a new user
 export const register = async (req, res, next) => {
-  const { name, email, age, gender, profession, character, media, questions } = req.body
+  const { name, email, age, gender, profession, character, media, question } = req.body
   try {
     const user = new User({
       name,
@@ -36,9 +36,11 @@ export const register = async (req, res, next) => {
       profession,
       character,
       media,
-      questions
+      questions: question
     });
+
     console.log(user)
+    // console.log(user)
     await user.save();
     return res.status(200).json({ message: "User Posted" })
   } catch (err) {
