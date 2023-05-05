@@ -1,33 +1,42 @@
 import jwt from "jsonwebtoken";
+import LoginSchema from "../model/LoginSchema.js";
 import Login from "../model/LoginSchema.js";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
   try {
-    const user = await Login.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    const userExist = await Login.findOne({ email });
+    if (!!userExist) {
+      if (userExist?.password == password) {
+        return res.status(200).json({ message: "login SuccessFull" })
+      } else {
+        return res.status(201).json({ message: "Password is incorrect" })
+      }
+    } else {
+      return res.status(201).json({ message: "User Doesn't exist" })
     }
 
-    user.comparePassword(password, (err, isMatch) => {
-      if (err) {
-        return res.status(500).json({ message: "Something went wrong" });
-      }
-
-      if (!isMatch) {
-        return res.status(400).json({ message: "Invalid credentials" });
-      }
-
-      const token = jwt.sign({ email: user.email, id: user._id }, "secret", {
-        expiresIn: "1h",
-      });
-
-      res.status(200).json({ user, token });
-    });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-export { login };
+const SignUp = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const UserExist = await Login.find({ email })
+    if (UserExist?.length == 0) {
+      const userObj = new LoginSchema({
+        email, password
+      })
+      await userObj.save()
+      return res.status(200).json({ message: "user post" })
+    }
+    return res.status(201).json({ message: "user Exist" })
+
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export { login, SignUp };
