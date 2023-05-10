@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import loginRoutes from "./routes/login-routes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
-
+import fetchAudioUrls from "./audio/fetchAudioUrls.js";
+import findPitch from "./audio/findPitch.js";
 
 const app = express();
 dotenv.config();
@@ -25,9 +26,21 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
+
 app.get('/', (req, res) => {
   res.json({ message: 'Backend WORKING' })
 })
+//pitch//
+app.get("/api/pitch", async (req, res) => {
+  try {
+    await fetchAudioUrls(); // call the fetchAudioUrls function
+    res.json({ message: "Pitch results logged to console" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+//pitch//
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

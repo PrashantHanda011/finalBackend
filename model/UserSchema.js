@@ -22,6 +22,9 @@ const userSchema = new Schema({
     images: [String],
     signature: [String],
   },
+  feedback:{
+    
+  }
 });
 
 export default mongoose.model("user", userSchema);
