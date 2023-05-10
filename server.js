@@ -33,13 +33,15 @@ app.get('/', (req, res) => {
 //pitch//
 app.get("/api/pitch", async (req, res) => {
   try {
-    await fetchAudioUrls(); // call the fetchAudioUrls function
-    res.json({ message: "Pitch results logged to console" });
+    const pitchResults = await fetchAudioUrls();
+    console.log(pitchResults);
+    res.json({ pitchResults });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 //pitch//
 
 app.listen(port, () => {
