@@ -23,7 +23,7 @@ const userSchema = new Schema({
     signature: [String],
   },
   feedback:{
-    
+    feedback:Boolean,
   }
 });
 
