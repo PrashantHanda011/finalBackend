@@ -36,7 +36,7 @@ export const register = async (req, res, next) => {
       profession,
       character,
       media,
-      questions: question
+      questions: question,feedback
     });
 
     console.log(user)
